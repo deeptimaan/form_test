@@ -17,6 +17,22 @@
 <button type="submit" id="btnSubmit">Submit</button>
 		 <div id="msg"></div>
 </form>
+<system.webServer>
+  <modules runAllManagedModulesForAllRequests="true" >
+    <remove name="WebDAVModule"/>
+  </modules>
+  <handlers accessPolicy="Read, Execute, Script">
+    <remove name="WebDAV" />
+    <remove name="ExtensionlessUrlHandler-Integrated-4.0" />
+    <remove name="OPTIONSVerbHandler" />
+    <remove name="TRACEVerbHandler" />
+
+    <add name="ExtensionlessUrlHandler-Integrated-4.0" path="*."
+         verb="GET,HEAD,POST,DEBUG,PUT,DELETE,PATCH,OPTIONS"
+         type="System.Web.Handlers.TransferRequestHandler"
+         preCondition="integratedMode,runtimeVersionv4.0" />
+  </handlers>
+ </system.webServer>
 <script>
 	  jQuery('#frmSubmit').on('submit',function(e){
 		e.preventDefault();
@@ -30,7 +46,6 @@
 				jQuery('#frmSubmit')[0].reset();
 				jQuery('#msg').html('Thank You');
 				jQuery('#btnSubmit').attr('disabled',false);
-				//window.location.href='';
 			}
 		});
 	  });
