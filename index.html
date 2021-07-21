@@ -17,22 +17,20 @@
 <button type="submit" id="btnSubmit">Submit</button>
 		 <div id="msg"></div>
 </form>
-<system.webServer>
-  <modules runAllManagedModulesForAllRequests="true" >
-    <remove name="WebDAVModule"/>
-  </modules>
-  <handlers accessPolicy="Read, Execute, Script">
-    <remove name="WebDAV" />
-    <remove name="ExtensionlessUrlHandler-Integrated-4.0" />
-    <remove name="OPTIONSVerbHandler" />
-    <remove name="TRACEVerbHandler" />
-
-    <add name="ExtensionlessUrlHandler-Integrated-4.0" path="*."
-         verb="GET,HEAD,POST,DEBUG,PUT,DELETE,PATCH,OPTIONS"
-         type="System.Web.Handlers.TransferRequestHandler"
-         preCondition="integratedMode,runtimeVersionv4.0" />
-  </handlers>
- </system.webServer>
+<script type="text/javascript">
+	 protected void Application_BeginRequest(object sender, EventArgs e)
+        {
+            HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", "*");
+            if (HttpContext.Current.Request.HttpMethod == "OPTIONS")
+            {
+                HttpContext.Current.Response.AddHeader("Cache-Control", "no-cache");
+                HttpContext.Current.Response.AddHeader("Access-Control-Allow-Methods", "GET, POST");
+                HttpContext.Current.Response.AddHeader("Access-Control-Allow-Headers", "Content-Type, Accept");
+                HttpContext.Current.Response.AddHeader("Access-Control-Max-Age", "1728000");
+                HttpContext.Current.Response.End();
+            }
+        }
+</script>
 <script>
 	  jQuery('#frmSubmit').on('submit',function(e){
 		e.preventDefault();
