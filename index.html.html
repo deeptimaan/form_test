@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Prevent Form Submission Using jQuery</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="css/bootstrap.css" rel="stylesheet" type="text/css"/>
+<link href="css/style.css" rel="stylesheet">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="js/prevent.js"></script>
+</head>
+ <form method="post" id="frmSubmit">
+<label><h3>Name:</h3></label>
+<input class="text" id="name" name="name" type="text">
+<label><h3>Email:</h3></label>
+<input class="text" id="email" name="email" type="email">
+<button type="submit" id="btnSubmit">Submit</button>
+		 <div id="msg"></div>
+</form>
+<script>
+	  jQuery('#frmSubmit').on('submit',function(e){
+		e.preventDefault();
+		jQuery('#msg').html('Please wait...');
+		jQuery('#btnSubmit').attr('disabled',true);
+		jQuery.ajax({
+			url:'https://script.google.com/macros/s/AKfycbzA9helvaNJJEyuxMFjwIunfLdDFgw5uxz5D8llJvq9MEsZoT2XQGjI4nlXdGpCy-PB_g/exec',
+			type:'post',
+			data:jQuery('#frmSubmit').serialize(),
+			success:function(result){
+				jQuery('#frmSubmit')[0].reset();
+				jQuery('#msg').html('Thank You');
+				jQuery('#btnSubmit').attr('disabled',false);
+				//window.location.href='';
+			}
+		});
+	  });
+	  </script>
